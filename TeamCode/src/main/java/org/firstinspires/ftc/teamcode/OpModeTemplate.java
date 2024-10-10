@@ -19,6 +19,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @Disabled
 public class OpModeTemplate extends OpMode {
 
+    /**Here is where you declare your variables and OpMode Members*/
     private ElapsedTime runtime = new ElapsedTime();
 
     /** "init" runs once upon hitting the INIT button*/
