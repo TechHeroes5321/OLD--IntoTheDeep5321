@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.TELEOP;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**This file works as a template for any OpMode you may create
@@ -15,19 +16,21 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Android studio will automatically import FTC libraries as needed
  * Have fun coding and remember Labels on Cables :D */
 
-@TeleOp(name = "test file")
-
-public class testfile extends OpMode {
+@TeleOp(name = "DriveTest")
+public class DriveTest extends OpMode {
 
     /**Here is where you declare your variables and OpMode Members*/
     private ElapsedTime runtime = new ElapsedTime();
-
+    private DcMotor leftDrive = null;
+    private DcMotor rightDrive = null;
     /** "init" runs once upon hitting the INIT button*/
     @Override
     public void init() {
         telemetry.addData("Status", "Initialized");
     }
 
+    
+    
     /** "init_loop" runs repeatedly after hitting INIT until the play button is hit or the OpMode is stopped*/
     @Override
     public void init_loop() {
