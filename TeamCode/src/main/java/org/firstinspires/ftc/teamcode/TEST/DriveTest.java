@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.TELEOP;
+package org.firstinspires.ftc.teamcode.TEST;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -17,6 +17,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Have fun coding and remember Labels on Cables :D */
 
 @TeleOp(name = "DriveTest")
+@Disabled
 public class DriveTest extends OpMode {
 
     /**Here is where you declare your variables and OpMode Members*/

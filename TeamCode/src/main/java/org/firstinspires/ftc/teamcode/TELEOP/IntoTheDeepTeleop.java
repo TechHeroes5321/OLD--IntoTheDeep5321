@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.TELEOP;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -19,7 +18,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp(name = "Euler Drive")
 
-public class TechHeroesIntoTheDeep extends OpMode {
+public class IntoTheDeepTeleop extends OpMode {
 
     /**Here is where you declare your variables and OpMode Members*/
     private ElapsedTime runtime = new ElapsedTime();
