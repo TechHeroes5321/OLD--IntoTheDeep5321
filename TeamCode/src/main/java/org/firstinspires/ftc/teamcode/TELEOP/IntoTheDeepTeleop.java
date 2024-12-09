@@ -33,6 +33,11 @@ public class IntoTheDeepTeleop extends OpMode {
     /** "init" runs once upon hitting the INIT button*/
     @Override
     public void init() {
+        LeftDrive  = hardwareMap.get(DcMotor.class, "LeftDrive");
+        RightDrive  = hardwareMap.get(DcMotor.class, "RightDrive");
+        LinearSlide  = hardwareMap.get(DcMotor.class, "LinearSlide");
+        SpecimenClaw = hardwareMap.get(Servo.class,"SpecimenClaw" );
+
         SpecimenClaw.setDirection(Servo.Direction.FORWARD);
         Spec_Claw_Open = 0.6;
         Spec_Claw_State = "CLOSED";
