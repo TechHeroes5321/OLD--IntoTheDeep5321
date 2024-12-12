@@ -167,19 +167,19 @@ public class IntoTheDeepTeleop extends OpMode {
     private void Linear_Slide_Controls() {
         if (!(gamepad1.right_bumper || gamepad1.left_bumper)) {
             LinearSlide.setPower(0);
-        } else if (gamepad1.right_bumper && LinearSlide.getCurrentPosition() < SlideRaised) {
+        } else if (gamepad1.right_bumper) {
             LinearSlide.setPower(LinearSlideSpeed);
-        } else if (LinearSlide.getCurrentPosition() > SlideLowered) {
+        } else {
             LinearSlide.setPower(-LinearSlideSpeed);
         }
     }
 
     private void Hypotenuse_Arm_Controls() {
-        if (gamepad1.right_trigger < TriggerMinimum && gamepad1.left_trigger < TriggerMinimum) {
+        if (gamepad1.right_trigger < TriggerMinimum) {
             HypotenuseArm.setPower(0);
-        } else if (gamepad1.right_trigger > TriggerMinimum && HypotenuseArm.getCurrentPosition() < HypotenuseExtended ) {
+        } else if (gamepad1.right_trigger > TriggerMinimum) {
             HypotenuseArm.setPower(HypotenuseArmSpeed);
-        } else if (HypotenuseArm.getCurrentPosition() > HypotenuseRetracted) {
+        } else  {
             HypotenuseArm.setPower(-HypotenuseArmSpeed);
         }
     }
