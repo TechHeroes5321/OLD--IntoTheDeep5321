@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.TELEOP;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -21,14 +22,19 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class IntoTheDeepTeleop extends OpMode {
 
     /**Here is where you declare your variables and OpMode Members*/
-    private ElapsedTime runtime = new ElapsedTime();
+    private final ElapsedTime runtime = new ElapsedTime();
     private Servo SpecimenClaw;
     private DcMotor LeftDrive;
     private DcMotor RightDrive;
     private DcMotor LinearSlide;
+    private DcMotor HypotenuseArm;
+    private CRServo Spintake;
 
-    String Spec_Claw_State;
-    double Spec_Claw_Open;
+    String SpecClawState;
+    double SpecClawOpen;
+    double LinearSlideSpeed;
+    double HypotenuseArmSpeed;
+    double TriggerMinimum;
 
     /** "init" runs once upon hitting the INIT button*/
     @Override
@@ -36,22 +42,36 @@ public class IntoTheDeepTeleop extends OpMode {
         LeftDrive  = hardwareMap.get(DcMotor.class, "LeftDrive");
         RightDrive  = hardwareMap.get(DcMotor.class, "RightDrive");
         LinearSlide  = hardwareMap.get(DcMotor.class, "LinearSlide");
-        SpecimenClaw = hardwareMap.get(Servo.class,"SpecimenClaw" );
+        SpecimenClaw = hardwareMap.get(Servo.class,"SpecimenClaw");
+        HypotenuseArm = hardwareMap.get(DcMotor.class,"HypotenuseArm");
+        Spintake = hardwareMap.get(CRServo.class,"Spintake");
 
-        SpecimenClaw.setDirection(Servo.Direction.FORWARD);
-        Spec_Claw_Open = 0.6;
-        Spec_Claw_State = "CLOSED";
+        SpecClawOpen = 0.6;
         SpecimenClaw.setPosition(0);
+        SpecClawState = "CLOSED";
+        LinearSlideSpeed = 0.1;
+        HypotenuseArmSpeed = 0.5;
+        TriggerMinimum = 0.1;
+
         LeftDrive.setDirection(DcMotor.Direction.FORWARD);
         RightDrive.setDirection(DcMotor.Direction.FORWARD);
         LinearSlide.setDirection(DcMotor.Direction.FORWARD);
+        HypotenuseArm.setDirection(DcMotor.Direction.FORWARD);
+        SpecimenClaw.setDirection(Servo.Direction.FORWARD);
+        Spintake.setDirection(CRServo.Direction.FORWARD);
+
         LeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         RightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         LinearSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        HypotenuseArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         LeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         RightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         LinearSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        HypotenuseArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         telemetry.addData("Status", "Initialized");
+
     }
 
     /** "init_loop" runs repeatedly after hitting INIT until the play button is hit or the OpMode is stopped*/
@@ -69,10 +89,12 @@ public class IntoTheDeepTeleop extends OpMode {
     /** "loop" runs repeatedly after hitting play until the OpMode is stopped*/
     @Override
     public void loop() {
-        telemetry.addData("Status", "Run Time: " + runtime.toString());
+        telemetry.addData("Status", "Run Time: " + runtime);
         Drive_Controls();
         Specimen_Claw_Controls();
         Linear_Slide_Controls();
+        Hypotenuse_Arm_Controls();
+        Spintake_Controls();
         Telemetry_Outputs();
     }
 
@@ -83,8 +105,10 @@ public class IntoTheDeepTeleop extends OpMode {
     }
 
     private void Telemetry_Outputs() {
-        telemetry.addData("Specimen Claw", Spec_Claw_State);
+        telemetry.addData("Specimen Claw", SpecClawState);
         telemetry.addData("slide pos", LinearSlide.getCurrentPosition());
+        telemetry.addData("left wheel pos", LeftDrive.getCurrentPosition());
+        telemetry.addData("right wheel pos", RightDrive.getCurrentPosition());
         telemetry.update();
     }
 
@@ -99,8 +123,8 @@ public class IntoTheDeepTeleop extends OpMode {
             RightMotorCalc = -((gamepad1.right_stick_y / Math.abs(gamepad1.right_stick_y)) * Math.pow(gamepad1.right_stick_y, 2));
         }
         if (!(gamepad1.right_stick_x == 0)) {
-            LeftMotorCalc += -((gamepad1.right_stick_x / Math.abs(gamepad1.right_stick_x)) * Math.pow(gamepad1.right_stick_x, 2));
-            RightMotorCalc += -((gamepad1.right_stick_x / Math.abs(gamepad1.right_stick_x)) * Math.pow(gamepad1.right_stick_x, 2));
+            LeftMotorCalc += (-(gamepad1.right_stick_x / Math.abs(gamepad1.right_stick_x)) * Math.pow(gamepad1.right_stick_x, 2));
+            RightMotorCalc += (-(gamepad1.right_stick_x / Math.abs(gamepad1.right_stick_x)) * Math.pow(gamepad1.right_stick_x, 2));
         }
         LeftDrive.setPower(LeftMotorCalc);
         RightDrive.setPower(RightMotorCalc);
@@ -108,23 +132,44 @@ public class IntoTheDeepTeleop extends OpMode {
 
     private void Specimen_Claw_Controls() {
         if (gamepad1.a) {
-            Spec_Claw_State = "OPEN";
-            SpecimenClaw.setPosition(Spec_Claw_Open);
-        }
-        if (gamepad1.b) {
-            Spec_Claw_State = "CLOSED";
-            SpecimenClaw.setPosition(0);
+            if (SpecClawState.equals("Closed")) {
+                SpecClawState = "OPEN";
+                SpecimenClaw.setPosition(SpecClawOpen);
+            } else {
+                SpecClawState = "CLOSED";
+                SpecimenClaw.setPosition(0);
+            }
         }
     }
 
     private void Linear_Slide_Controls() {
-        if (!(gamepad1.dpad_up || gamepad1.dpad_down)) {
+        if (!(gamepad1.right_bumper || gamepad1.left_bumper)) {
             LinearSlide.setPower(0);
-        } else if (gamepad1.dpad_up) {
-            LinearSlide.setPower(0.1);
+        } else if (gamepad1.right_bumper) {
+            LinearSlide.setPower(LinearSlideSpeed);
         } else {
-            LinearSlide.setPower(-0.1);
+            LinearSlide.setPower(-LinearSlideSpeed);
         }
     }
 
+    private void Hypotenuse_Arm_Controls() {
+        if (gamepad1.right_trigger < TriggerMinimum || gamepad1.left_trigger < TriggerMinimum) {
+            HypotenuseArm.setPower(0);
+        } else if (gamepad1.right_trigger > TriggerMinimum) {
+            HypotenuseArm.setPower(HypotenuseArmSpeed);
+        } else {
+            HypotenuseArm.setPower(-HypotenuseArmSpeed);
+        }
+    }
+
+    private void Spintake_Controls() {
+        if (!(gamepad1.dpad_up || gamepad1.dpad_down)) {
+            Spintake.setPower(0);
+        } else if (gamepad1.dpad_up) {
+            Spintake.setPower(1);
+        } else {
+            Spintake.setPower(-1);
+        }
+    }
 }
+
