@@ -6,7 +6,8 @@ This repository contains the public FTC SDK for the INTO THE DEEP (2024-2025) co
 This GitHub repository contains the source code that is used to build an Android app to control a *FIRST* Tech Challenge competition robot.  To use this SDK, download/clone the entire project to your local computer.
 
 ## Requirements
-To use this Android Studio project, you will need Android Studio Ladybug (2024.2) or later.
+To use this Android Studio project, you will need Android Studio 2021.2 (codename Chipmunk) or later.
+
 To program your robot in Blocks or OnBot Java, you do not need Android Studio.
 
 ## Getting Started
@@ -59,24 +60,6 @@ The readme.md file located in the [/TeamCode/src/main/java/org/firstinspires/ftc
 # Release Information
 
 ## Version 10.0  (20240828-111152)
-## Version 10.1.1 (20241102-092223)
-
-### Breaking Changes
-
-* Support for Android Studio Ladybug.  Requires Android Studio Ladybug.
-
-### Known Issues
-
-* Android Studio Ladybug's bundled JDK is version 21.  JDK 21 has deprecated support for Java 1.8, and Ladybug will warn on this deprecation.
-  OnBotJava only supports Java 1.8, therefore, in order to ensure that software developed using Android Studio will
-  run within the OnBotJava environment, the targetCompatibility and sourceCompatibility versions for the SDK have been left at VERSION_1_8.
-  FIRST has decided that until it can devote the resources to migrating OnBotJava to a newer version of Java, the deprecation is the
-  lesser of two non-optimal situations.
-
-### Enhancements
-
-* Added `toString()` method to Pose2D
-* Added `toString()` method to SparkFunOTOS.Pose2D
 
 ### Breaking Changes
 * Java classes and Blocks for TensorFlow Object Detection have been removed.
