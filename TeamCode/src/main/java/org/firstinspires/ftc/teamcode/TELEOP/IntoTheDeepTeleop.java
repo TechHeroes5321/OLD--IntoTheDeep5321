@@ -35,6 +35,10 @@ public class IntoTheDeepTeleop extends OpMode {
     double LinearSlideSpeed;
     double HypotenuseArmSpeed;
     double TriggerMinimum;
+    double SlideLowered;
+    double SlideRaised;
+    double HypotenuseRetracted;
+    double HypotenuseExtended;
 
     /** "init" runs once upon hitting the INIT button*/
     @Override
@@ -77,7 +81,22 @@ public class IntoTheDeepTeleop extends OpMode {
     /** "init_loop" runs repeatedly after hitting INIT until the play button is hit or the OpMode is stopped*/
     @Override
     public void init_loop() {
+        if (gamepad1.dpad_up) {
+            SlideRaised = LinearSlide.getCurrentPosition();
+        }
+        if (gamepad1.dpad_down) {
+            SlideLowered = LinearSlide.getCurrentPosition();
+        }
 
+        if (gamepad1.dpad_left) {
+            HypotenuseRetracted = HypotenuseArm.getCurrentPosition();
+        }
+        if (gamepad1.dpad_right) {
+            HypotenuseExtended = HypotenuseArm.getCurrentPosition();
+        }
+
+        Specimen_Claw_Controls();
+        Telemetry_Outputs();
     }
 
     /** "start" runs once upon hitting the play button*/
@@ -109,6 +128,9 @@ public class IntoTheDeepTeleop extends OpMode {
         telemetry.addData("slide pos", LinearSlide.getCurrentPosition());
         telemetry.addData("left wheel pos", LeftDrive.getCurrentPosition());
         telemetry.addData("right wheel pos", RightDrive.getCurrentPosition());
+        telemetry.addData("left trigger", gamepad1.left_trigger);
+        telemetry.addData("right trigger", gamepad1.right_trigger);
+        telemetry.addData("hypotenuse", HypotenuseArm.getCurrentPosition());
         telemetry.update();
     }
 
@@ -145,19 +167,19 @@ public class IntoTheDeepTeleop extends OpMode {
     private void Linear_Slide_Controls() {
         if (!(gamepad1.right_bumper || gamepad1.left_bumper)) {
             LinearSlide.setPower(0);
-        } else if (gamepad1.right_bumper) {
+        } else if (gamepad1.right_bumper && LinearSlide.getCurrentPosition() < SlideRaised) {
             LinearSlide.setPower(LinearSlideSpeed);
-        } else {
+        } else if (LinearSlide.getCurrentPosition() > SlideLowered) {
             LinearSlide.setPower(-LinearSlideSpeed);
         }
     }
 
     private void Hypotenuse_Arm_Controls() {
-        if (gamepad1.right_trigger < TriggerMinimum || gamepad1.left_trigger < TriggerMinimum) {
+        if (gamepad1.right_trigger < TriggerMinimum && gamepad1.left_trigger < TriggerMinimum) {
             HypotenuseArm.setPower(0);
-        } else if (gamepad1.right_trigger > TriggerMinimum) {
+        } else if (gamepad1.right_trigger > TriggerMinimum && HypotenuseArm.getCurrentPosition() < HypotenuseExtended ) {
             HypotenuseArm.setPower(HypotenuseArmSpeed);
-        } else {
+        } else if (HypotenuseArm.getCurrentPosition() > HypotenuseRetracted) {
             HypotenuseArm.setPower(-HypotenuseArmSpeed);
         }
     }
