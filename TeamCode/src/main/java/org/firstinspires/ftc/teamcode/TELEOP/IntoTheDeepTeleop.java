@@ -15,7 +15,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Change the name to how it should appear in the driver station app
  * Lastly remove @Disabled so this file appears in the driver station app
  * Android studio will automatically import FTC libraries as needed
- * Have fun coding and remember Labels on Cables :D */
+ * Have fun coding and remember Labels on Cables :D
+ * @noinspection ALL*/
 
 @TeleOp(name = "Euler Drive")
 
@@ -175,7 +176,7 @@ public class IntoTheDeepTeleop extends OpMode {
     }
 
     private void Hypotenuse_Arm_Controls() {
-        if (gamepad1.right_trigger < TriggerMinimum) {
+        if (!(gamepad1.right_trigger > TriggerMinimum || gamepad1.left_trigger > TriggerMinimum)) {
             HypotenuseArm.setPower(0);
         } else if (gamepad1.right_trigger > TriggerMinimum) {
             HypotenuseArm.setPower(HypotenuseArmSpeed);
