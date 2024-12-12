@@ -22,7 +22,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class IntoTheDeepTeleop extends OpMode {
 
     /**Here is where you declare your variables and OpMode Members*/
-    private final ElapsedTime runtime = new ElapsedTime();
+    private ElapsedTime runtime = new ElapsedTime();
     private Servo SpecimenClaw;
     private DcMotor LeftDrive;
     private DcMotor RightDrive;
