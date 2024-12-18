@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -25,10 +26,10 @@ public class IntoTheDeepTeleop extends OpMode {
     /**Here is where you declare your variables and OpMode Members*/
     private ElapsedTime runtime = new ElapsedTime();
     private Servo SpecimenClaw;
-    private DcMotor LeftDrive;
-    private DcMotor RightDrive;
-    private DcMotor LinearSlide;
-    private DcMotor HypotenuseArm;
+    private DcMotorEx LeftDrive;
+    private DcMotorEx RightDrive;
+    private DcMotorEx LinearSlide;
+    private DcMotorEx HypotenuseArm;
     private CRServo Spintake;
 
     String SpecClawState;
@@ -44,18 +45,18 @@ public class IntoTheDeepTeleop extends OpMode {
     /** "init" runs once upon hitting the INIT button*/
     @Override
     public void init() {
-        LeftDrive  = hardwareMap.get(DcMotor.class, "LeftDrive");
-        RightDrive  = hardwareMap.get(DcMotor.class, "RightDrive");
-        LinearSlide  = hardwareMap.get(DcMotor.class, "LinearSlide");
+        LeftDrive  = hardwareMap.get(DcMotorEx.class, "LeftDrive");
+        RightDrive  = hardwareMap.get(DcMotorEx.class, "RightDrive");
+        LinearSlide  = hardwareMap.get(DcMotorEx.class, "LinearSlide");
         SpecimenClaw = hardwareMap.get(Servo.class,"SpecimenClaw");
-        HypotenuseArm = hardwareMap.get(DcMotor.class,"HypotenuseArm");
+        HypotenuseArm = hardwareMap.get(DcMotorEx.class,"HypotenuseArm");
         Spintake = hardwareMap.get(CRServo.class,"Spintake");
 
         SpecClawOpen = 0.6;
         SpecimenClaw.setPosition(0);
         SpecClawState = "CLOSED";
         LinearSlideSpeed = 0.1;
-        HypotenuseArmSpeed = 0.5;
+        HypotenuseArmSpeed = 1;
         TriggerMinimum = 0.1;
 
         LeftDrive.setDirection(DcMotor.Direction.FORWARD);
