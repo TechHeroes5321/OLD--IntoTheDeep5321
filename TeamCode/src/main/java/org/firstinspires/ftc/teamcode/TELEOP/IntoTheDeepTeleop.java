@@ -23,42 +23,44 @@ public class IntoTheDeepTeleop extends OpMode {
 
     /**Here is where you declare your variables and OpMode Members*/
 
-    private Robot Robot;
+    private Robot robot;
+
     private MecanumTest MecanumTest;
     private double TriggerMinimum = 0.1;
 
     /** "init" runs once upon hitting the INIT button*/
     @Override
     public void init() {
-        Robot.Initialize();
+        robot = new Robot();
+        robot.Initialize();
     }
 
     /** "init_loop" runs repeatedly after hitting INIT until the play button is hit or the OpMode is stopped*/
     @Override
     public void init_loop() {
         Specimen_Claw_Controls();
-        Robot.Specimen_Claw_State_Handler();
-        Robot.Telemetry_Outputs();
+        robot.Specimen_Claw_State_Handler();
+        robot.Telemetry_Outputs();
     }
 
     /** "start" runs once upon hitting the play button*/
     @Override
     public void start() {
-        Robot.runtime.reset();
+        robot.runtime.reset();
     }
 
     /** "loop" runs repeatedly after hitting play until the OpMode is stopped*/
     @Override
     public void loop() {
-        telemetry.addData("Status", "Run Time: " + Robot.runtime);
+        telemetry.addData("Status", "Run Time: " + robot.runtime);
         //Drive_Controls();
         MecanumTest.MecanumDrive();
         Specimen_Claw_Controls();
         Linear_Slide_Controls();
         Hypotenuse_Arm_Controls();
         Spintake_Controls();
-        Robot.Specimen_Claw_State_Handler();
-        Robot.Telemetry_Outputs();
+        robot.Specimen_Claw_State_Handler();
+        robot.Telemetry_Outputs();
     }
 
     /** "stop" runs once upon the OpMode stopping with limited functionality*/
@@ -81,47 +83,47 @@ public class IntoTheDeepTeleop extends OpMode {
             LeftMotorCalc += (-(gamepad1.right_stick_x / Math.abs(gamepad1.right_stick_x)) * Math.pow(gamepad1.right_stick_x, 2));
             RightMotorCalc += (-(gamepad1.right_stick_x / Math.abs(gamepad1.right_stick_x)) * Math.pow(gamepad1.right_stick_x, 2));
         }
-        Robot.LeftDrive.setPower(LeftMotorCalc);
-        Robot.RightDrive.setPower(RightMotorCalc);
+        robot.LeftDrive.setPower(LeftMotorCalc);
+        robot.RightDrive.setPower(RightMotorCalc);
     } **/
 
     private void Specimen_Claw_Controls() {
         if (gamepad1.a) {
-            if (Robot.SpecClawState.equals("CLOSED")) {
-                Robot.SpecimenClaw.setPosition(Robot.SpecClawOpen);
+            if (robot.SpecClawState.equals("CLOSED")) {
+                robot.SpecimenClaw.setPosition(robot.SpecClawOpen);
             } else {
-                Robot.SpecimenClaw.setPosition(0);
+                robot.SpecimenClaw.setPosition(0);
             }
         }
     }
 
     private void Linear_Slide_Controls() {
         if (!(gamepad1.right_bumper || gamepad1.left_bumper)) {
-            Robot.LinearSlide.setPower(0);
+            robot.LinearSlide.setPower(0);
         } else if (gamepad1.right_bumper) {
-            Robot.LinearSlide.setPower(Robot.LinearSlideSpeed);
+            robot.LinearSlide.setPower(robot.LinearSlideSpeed);
         } else {
-            Robot.LinearSlide.setPower(-Robot.LinearSlideSpeed);
+            robot.LinearSlide.setPower(-robot.LinearSlideSpeed);
         }
     }
 
     private void Hypotenuse_Arm_Controls() {
         if (!(gamepad1.right_trigger > TriggerMinimum || gamepad1.left_trigger > TriggerMinimum)) {
-            Robot.HypotenuseArm.setPower(0);
+            robot.HypotenuseArm.setPower(0);
         } else if (gamepad1.right_trigger > TriggerMinimum) {
-            Robot.HypotenuseArm.setPower(Robot.HypotenuseArmSpeed);
+            robot.HypotenuseArm.setPower(robot.HypotenuseArmSpeed);
         } else  {
-            Robot.HypotenuseArm.setPower(-Robot.HypotenuseArmSpeed);
+            robot.HypotenuseArm.setPower(-robot.HypotenuseArmSpeed);
         }
     }
 
     private void Spintake_Controls() {
         if (!(gamepad1.dpad_up || gamepad1.dpad_down)) {
-            Robot.Spintake.setPower(0);
+            robot.Spintake.setPower(0);
         } else if (gamepad1.dpad_up) {
-            Robot.Spintake.setPower(1);
+            robot.Spintake.setPower(1);
         } else {
-            Robot.Spintake.setPower(-1);
+            robot.Spintake.setPower(-1);
         }
     }
 }

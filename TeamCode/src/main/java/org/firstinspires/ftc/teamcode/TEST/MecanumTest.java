@@ -66,7 +66,7 @@ import org.firstinspires.ftc.teamcode.UNIVERSAL.Robot;
 //@Disabled
 public abstract class MecanumTest extends OpMode {
 
-    private Robot Robot;
+      Robot robot;
 
     // Declare OpMode members for each of the 4 motors.
     @Override
@@ -75,6 +75,8 @@ public abstract class MecanumTest extends OpMode {
     }
 
     public void MecanumDrive() {
+        robot = new Robot();
+        
         double max;
 
         // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
@@ -103,10 +105,10 @@ public abstract class MecanumTest extends OpMode {
         }
 
         // Send calculated power to wheels
-        Robot.FrontLeft.setPower(leftFrontPower);
-        Robot.FrontRight.setPower(rightFrontPower);
-        Robot.BackLeft.setPower(leftBackPower);
-        Robot.BackRight.setPower(rightBackPower);
+        robot.FrontLeft.setPower(leftFrontPower);
+        robot.FrontRight.setPower(rightFrontPower);
+        robot.BackLeft.setPower(leftBackPower);
+        robot.BackRight.setPower(rightBackPower);
     }
 
 }

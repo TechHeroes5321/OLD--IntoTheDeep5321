@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-public abstract class Robot extends OpMode {
+public class Robot extends OpMode {
 
     //Below are variables that will be used in multiple codes
 
@@ -89,5 +89,15 @@ public abstract class Robot extends OpMode {
         telemetry.addData("right trigger", gamepad1.right_trigger);
         telemetry.addData("hypotenuse", HypotenuseArm.getCurrentPosition());
         telemetry.update();
+    }
+
+    @Override
+    public void init() {
+
+    }
+
+    @Override
+    public void loop() {
+
     }
 }
