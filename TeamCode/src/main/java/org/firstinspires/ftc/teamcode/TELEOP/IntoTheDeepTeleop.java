@@ -28,10 +28,11 @@ public class IntoTheDeepTeleop extends OpMode {
     private MecanumTest MecanumTest;
     private double TriggerMinimum = 0.1;
 
+
+
     /** "init" runs once upon hitting the INIT button*/
     @Override
     public void init() {
-        robot = new Robot();
         robot.Initialize();
     }
 

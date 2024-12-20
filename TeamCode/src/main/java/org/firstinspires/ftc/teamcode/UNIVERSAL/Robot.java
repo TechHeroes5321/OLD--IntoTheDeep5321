@@ -1,14 +1,12 @@
 package org.firstinspires.ftc.teamcode.UNIVERSAL;
 
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-public class Robot extends OpMode {
-
-    //Below are variables that will be used in multiple codes
+public class Robot {
 
     public ElapsedTime runtime = new ElapsedTime();
     public String SpecClawState;
@@ -17,8 +15,6 @@ public class Robot extends OpMode {
     public double HypotenuseArmSpeed;
     public double SlideRaised;
     public double HypotenuseExtended;
-
-    //Below is the hardware map
 
     public Servo SpecimenClaw;
     public DcMotorEx LinearSlide;
@@ -29,14 +25,20 @@ public class Robot extends OpMode {
     public DcMotorEx BackRight;
     public CRServo Spintake;
 
-    public void Initialize(){
+    private HardwareMap hardwareMap;
 
-        LinearSlide  = hardwareMap.get(DcMotorEx.class, "LinearSlide");
-        SpecimenClaw = hardwareMap.get(Servo.class,"SpecimenClaw");
-        HypotenuseArm = hardwareMap.get(DcMotorEx.class,"HypotenuseArm");
-        Spintake = hardwareMap.get(CRServo.class,"Spintake");
-        FrontLeft  = hardwareMap.get(DcMotorEx.class, "FrontLeft");
-        BackLeft  = hardwareMap.get(DcMotorEx.class, "BackLeft");
+    public Robot(HardwareMap hardwareMap) {
+        this.hardwareMap = hardwareMap;
+    }
+
+    public void initialize() {
+
+        LinearSlide = hardwareMap.get(DcMotorEx.class, "LinearSlide");
+        SpecimenClaw = hardwareMap.get(Servo.class, "SpecimenClaw");
+        HypotenuseArm = hardwareMap.get(DcMotorEx.class, "HypotenuseArm");
+        Spintake = hardwareMap.get(CRServo.class, "Spintake");
+        FrontLeft = hardwareMap.get(DcMotorEx.class, "FrontLeft");
+        BackLeft = hardwareMap.get(DcMotorEx.class, "BackLeft");
         FrontRight = hardwareMap.get(DcMotorEx.class, "FrontRight");
         BackRight = hardwareMap.get(DcMotorEx.class, "BackRight");
 
@@ -45,7 +47,6 @@ public class Robot extends OpMode {
         SpecClawState = "CLOSED";
         LinearSlideSpeed = 0.1;
         HypotenuseArmSpeed = 1;
-
 
         FrontLeft.setDirection(DcMotorEx.Direction.FORWARD);
         FrontRight.setDirection(DcMotorEx.Direction.FORWARD);
@@ -69,12 +70,9 @@ public class Robot extends OpMode {
         BackRight.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         LinearSlide.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         HypotenuseArm.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-
-        telemetry.addData("Status", "Initialized");
-
     }
 
-    public void Specimen_Claw_State_Handler() {
+    public void handleSpecimenClawState() {
         if (SpecimenClaw.getPosition() == 0) {
             SpecClawState = "CLOSED";
         } else {
@@ -82,22 +80,6 @@ public class Robot extends OpMode {
         }
     }
 
-    public void Telemetry_Outputs() {
-        telemetry.addData("Specimen Claw", SpecClawState);
-        telemetry.addData("slide pos", LinearSlide.getCurrentPosition());
-        telemetry.addData("left trigger", gamepad1.left_trigger);
-        telemetry.addData("right trigger", gamepad1.right_trigger);
-        telemetry.addData("hypotenuse", HypotenuseArm.getCurrentPosition());
-        telemetry.update();
-    }
-
-    @Override
-    public void init() {
-
-    }
-
-    @Override
-    public void loop() {
-
+    public void Initialize() {
     }
 }

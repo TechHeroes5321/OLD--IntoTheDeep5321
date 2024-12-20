@@ -75,7 +75,7 @@ public abstract class MecanumTest extends OpMode {
     }
 
     public void MecanumDrive() {
-        robot = new Robot();
+        robot = new Robot(hardwareMap);
         
         double max;
 
