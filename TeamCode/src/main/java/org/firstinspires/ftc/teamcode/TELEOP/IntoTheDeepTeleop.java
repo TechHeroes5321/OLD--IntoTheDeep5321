@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -67,10 +68,10 @@ public class IntoTheDeepTeleop extends OpMode {
         LinearSlideSpeed = 0.1;
         HypotenuseArmSpeed = 1;
 
-        FrontLeft.setDirection(DcMotorEx.Direction.FORWARD);
-        FrontRight.setDirection(DcMotorEx.Direction.FORWARD);
-        BackLeft.setDirection(DcMotorEx.Direction.FORWARD);
-        BackRight.setDirection(DcMotorEx.Direction.FORWARD);
+        FrontLeft.setDirection(DcMotorEx.Direction.REVERSE);
+        FrontRight.setDirection(DcMotorEx.Direction.REVERSE);
+        BackLeft.setDirection(DcMotorEx.Direction.REVERSE);
+        BackRight.setDirection(DcMotorEx.Direction.REVERSE);
         LinearSlide.setDirection(DcMotorEx.Direction.FORWARD);
         HypotenuseArm.setDirection(DcMotorEx.Direction.FORWARD);
         SpecimenClaw.setDirection(Servo.Direction.FORWARD);
