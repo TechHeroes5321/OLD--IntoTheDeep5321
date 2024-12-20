@@ -1,9 +1,11 @@
 package org.firstinspires.ftc.teamcode.TEST;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 @TeleOp()
+@Disabled
 public class HelloWorld extends OpMode {
     /**
      * This is called when the driver presses INIT
