@@ -75,8 +75,7 @@ public abstract class MecanumTest extends OpMode {
     }
 
     public void MecanumDrive() {
-        robot = new Robot(hardwareMap);
-        
+
         double max;
 
         // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
